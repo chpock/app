@@ -1,1 +1,0 @@
-@build\tclkit build\buildkit.tcl
