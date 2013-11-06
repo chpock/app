@@ -1,0 +1,20 @@
+Package: tdbc
+Repository: https://github.com/chpock/app/trunk/modules/core/tdbc
+
+Package: tdbc::mysql
+Repository: https://github.com/chpock/app/trunk/modules/core/tdbcmysql
+Directory: tdbcmysql
+Require: tdbc
+
+Package: tdbc::postgres
+Repository: https://github.com/chpock/app/trunk/modules/core/tdbcpostgres
+Directory: tdbcpostgres
+Require: tdbc
+
+Package: tdbc::odbc
+Repository: https://github.com/chpock/app/trunk/modules/core/tdbcodbc
+Directory: tdbcodbc
+Require: tdbc
+
+Package: itcl
+Repository: https://github.com/chpock/app/trunk/modules/core/itcl

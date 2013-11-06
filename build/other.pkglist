@@ -1,0 +1,6 @@
+Package: twapi4
+Repository: https://github.com/chpock/app/trunk/modules/other/twapi
+
+Package: cawt
+Repository: https://github.com/chpock/app/trunk/modules/other/cawt
+Require: twapi4

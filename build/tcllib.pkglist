@@ -1,0 +1,29 @@
+Package: base64
+Repository: https://github.com/chpock/app/trunk/modules/tcllib/base64
+
+Package: json
+Repository: https://github.com/chpock/app/trunk/modules/tcllib/json
+
+Package: log
+Repository: https://github.com/chpock/app/trunk/modules/tcllib/log
+
+Package: md5
+Repository: https://github.com/chpock/app/trunk/modules/tcllib/md5
+
+Package: png
+Repository: https://github.com/chpock/app/trunk/modules/tcllib/png
+
+Package: uevent
+Repository: https://github.com/chpock/app/trunk/modules/tcllib/uev
+Require: log
+
+Package: uri
+Repository: https://github.com/chpock/app/trunk/modules/tcllib/uri
+
+Package: uuid
+Repository: https://github.com/chpock/app/trunk/modules/tcllib/uuid
+Require: md5
+
+
+
+
