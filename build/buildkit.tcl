@@ -86,7 +86,7 @@ proc add_require { pkg } {
 }
 
 puts -nonewline "Reading external.pkglist ... "; flush stdout 
-set fd [open [file join $lib_dir external.pkglist] r]
+set fd [open [file join $src_dir external.pkglist] r]
 set linenum 0
 while { [gets $fd line] >= 0 } {
   incr linenum
