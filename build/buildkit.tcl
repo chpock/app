@@ -58,7 +58,7 @@ puts "ok."
 array set ext_temp [list]
 
 proc add_require { pkg } {
-  if { [info exists ::ext_temp($pkg)] } continue
+  if { [info exists ::ext_temp($pkg)] } return
   if { ![dict exists $::pkgs $pkg] } {
     err "package <${pkg}> not defined."
   }
