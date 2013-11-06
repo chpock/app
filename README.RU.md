@@ -7,7 +7,8 @@ app
    tk и notk версию.
 2. Запускаем "1.unwrap.bat tclkit-8.6.1-win32-i586-notk-xcompile tclkit-8.6.1-win32-notk"
 3. Запускаем "1.unwrap.bat tclkit-8.6.1-win32-i586-xcompile tclkit-8.6.1-win32"
-4. Удаляем из *.vfs каталогов библиотеки itcl, tdbc*, thread (в tk версии удалить так же *.sh и .o)
+4. Переносим из *.vfs каталогов библиотеки itcl, tdbc*, thread в modules/core/ 
+   (в tk версии удалить так же *.sh и .o)
 5. Добавляем из "src" в корень *.vfs файлы main.tcl и tkcon.tcl
 6. Запускаем "2.wrap.bat tclkit-8.6.1-win32-notk"
 7. Запускаем "2.wrap.bat tclkit-8.6.1-win32"
