@@ -149,6 +149,8 @@ if { [catch {exec $svn_exe propget svn:externals [file nativename $lib_dir]} m] 
   puts "ok."
 }
 
+set odd_pkgs [list]
+
 foreach line [split $m \n] {
   if { [set line [string trim $line]] eq "" } continue
   set line [split $line { }]
@@ -165,11 +167,11 @@ foreach line [split $m \n] {
     }
   }
   if { !$foundpkg } {
-    set ext_temp($pkg$repo) 1
+    lappend odd_pkgs $dir
   }
 }
 
-if { ![array size ext_temp] } {
+if { ![array size ext_temp] && ![llength $odd_pkgs] } {
   puts "External libs up to date."
 } {
   puts -nonewline "Updating external libs props ... "; flush stdout

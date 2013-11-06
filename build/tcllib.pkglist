@@ -13,7 +13,7 @@ Archive: https://raw.github.com/chpock/app/master/modules/tcllib/md5.zip
 Package: png
 Archive: https://raw.github.com/chpock/app/master/modules/tcllib/png.zip
 
-Package: uevent
+Package: uev
 Archive: https://raw.github.com/chpock/app/master/modules/tcllib/uev.zip
 Require: log
 
