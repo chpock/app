@@ -1,27 +1,27 @@
 Package: base64
-Repository: https://github.com/chpock/app/trunk/modules/tcllib/base64
+Archive: https://raw.github.com/chpock/app/master/modules/tcllib/base64.zip
 
 Package: json
-Repository: https://github.com/chpock/app/trunk/modules/tcllib/json
+Archive: https://raw.github.com/chpock/app/master/modules/tcllib/json.zip
 
 Package: log
-Repository: https://github.com/chpock/app/trunk/modules/tcllib/log
+Archive: https://raw.github.com/chpock/app/master/modules/tcllib/log.zip
 
 Package: md5
-Repository: https://github.com/chpock/app/trunk/modules/tcllib/md5
+Archive: https://raw.github.com/chpock/app/master/modules/tcllib/md5.zip
 
 Package: png
-Repository: https://github.com/chpock/app/trunk/modules/tcllib/png
+Archive: https://raw.github.com/chpock/app/master/modules/tcllib/png.zip
 
 Package: uevent
-Repository: https://github.com/chpock/app/trunk/modules/tcllib/uev
+Archive: https://raw.github.com/chpock/app/master/modules/tcllib/uev.zip
 Require: log
 
 Package: uri
-Repository: https://github.com/chpock/app/trunk/modules/tcllib/uri
+Archive: https://raw.github.com/chpock/app/master/modules/tcllib/uri.zip
 
 Package: uuid
-Repository: https://github.com/chpock/app/trunk/modules/tcllib/uuid
+Archive: https://raw.github.com/chpock/app/master/modules/tcllib/uuid.zip
 Require: md5
 
 
