@@ -1,7 +1,9 @@
 package require starkit
 starkit::startup
+package require vfs::zip
 
 set tools_dir $::starkit::topdir
+set cache_dir [file join $tools_dir .cache]
 set src_dir [file join [file dirname $tools_dir] src]
 set lib_dir [file join $src_dir lib]
 set svn_exe [file join $tools_dir svn svn.exe]
@@ -9,13 +11,22 @@ set tcl_ver "8.6.1"
 set kit_platform "win32"
 set executable_ext ".exe"
 
+source [file join $tools_dir tls-win.kit]
+package require tls
+package require http
+http::register https 443 ::tls::socket
+
 proc err { msg } {
   puts stderr $msg
   exit 1
 }
 
+if { ![file exists $cache_dir] } {
+  file mkdir $cache_dir
+}
+
 puts -nonewline "Reading packages.list ... "; flush stdout
-set pkgs [dict create Tk [dict create repository internal require "" directory ""]]
+set pkgs [dict create Tk [dict create repository internal require "" directory "" archive ""]]
 foreach pkgfn [glob -nocomplain -directory $tools_dir *.pkglist] {
 	set fd [open $pkgfn r]
 	set cur_pkg ""
@@ -27,11 +38,17 @@ foreach pkgfn [glob -nocomplain -directory $tools_dir *.pkglist] {
 	  set key [string trim [lindex $line 0]]
 	  set val [string trim [join [lrange $line 1 end] :]]
 	  if { [string equal -nocase "package" $key] } {
+	    if { $cur_pkg ne "" } {
+	      if { [dict get $pkgs $cur_pkg repository] eq "" && [dict get $pkgs $cur_pkg archive] eq ""} {
+	        err "Error in [file tail ${pkgfn}] file, package '${cur_pkg}' don't have repository"
+	      }
+	    }
 	    set cur_pkg $val
 	    dict set pkgs $cur_pkg [dict create \
 	      repository "" \
 	      require [list] \
-	      directory ""]
+	      directory $cur_pkg \
+	      archive ""]
 	    continue
 	  }
 	  if { $cur_pkg eq "" } {
@@ -39,7 +56,7 @@ foreach pkgfn [glob -nocomplain -directory $tools_dir *.pkglist] {
 			err "Error at line ${linenum}, package name not defined."
 	  }
 	  switch -nocase -exact -- $key {
-	    repository - directory {
+	    repository - directory - archive {
 	      dict set pkgs $cur_pkg [string tolower $key] $val
 	    }
 	    require {
@@ -47,7 +64,7 @@ foreach pkgfn [glob -nocomplain -directory $tools_dir *.pkglist] {
 	    }
 	    default {
 	      close $fd
-	      err "Error at line ${linenum}, package description key not known."
+	      err "Error at line ${linenum}, package key '${key}' not known."
 	    }
 	  }
 	}
@@ -89,24 +106,66 @@ if { [info exists ext_temp(Tk)] } {
   set useTk 0
 }
 
+array set archive_pkg [list]
+
+foreach { pkg } [array names ext_temp] {
+  if { [dict get $pkgs $pkg archive] ne "" } {
+    set fn [lindex [split [dict get $pkgs $pkg archive] /] end]
+    if { ![file exists [file join $cache_dir $fn]] } {
+      puts -nonewline "Fetch module '${pkg}' ... "; flush stdout
+      set fd [open [file join $cache_dir $fn] w]
+			fconfigure $fd -encoding binary -eofchar {} -translation binary
+			try {
+			  set token [http::geturl [dict get $pkgs $pkg archive] -binary 1 -channel $fd]
+			  if { [http::status $token] ne "ok" } {
+			    set m [http::error $token]
+			    http::cleanup $token
+			    error "Http error: $m"
+			  }
+			  http::cleanup $token
+			} on error { r o } {
+			  close $fd
+			  file delete [file join $cache_dir $fn]
+			  err "Error:\n$r"
+			}
+      close $fd
+      puts "ok."
+    }
+    set archive_pkg($pkg) [file join $cache_dir $fn]
+    unset ext_temp($pkg)
+  }  
+}
+
 puts -nonewline "Checking svn:externals ... "; flush stdout
 array set ext_save [array get ext_temp]
 if { [catch {exec $svn_exe propget svn:externals [file nativename $lib_dir]} m] } {
-  err "Error, svn propget failed:\n$m"
+  if { ![array size ext_temp] } {
+    puts "ignore error."
+    set m [list]
+  } {
+  	err "Error, svn propget failed:\n$m"
+  }
+} {
+  puts "ok."
 }
-puts "ok."
 
 foreach line [split $m \n] {
   if { [set line [string trim $line]] eq "" } continue
   set line [split $line { }]
   set repo [join [lrange $line 0 end-1] { }]
-  set pkg [lindex $line end]
-  if { [info exists ext_temp($pkg)] } {
-    if { $repo eq $ext_temp($pkg) } {
-      unset ext_temp($pkg)
+  set dir [lindex $line end]
+  set foundpkg 0
+  foreach pkg [array names ext_temp] {
+    if { $dir eq [dict get $pkgs $pkg directory] } {
+      if { $repo eq $ext_temp($pkg) } {
+        unset ext_temp($pkg)
+      }
+      set foundpkg 1
+      break
     }
-  } {
-    set ext_temp($pkg) $repo
+  }
+  if { !$foundpkg } {
+    set ext_temp($pkg$repo) 1
   }
 }
 
@@ -136,17 +195,18 @@ if { ![array size ext_temp] } {
 	}
   puts "ok."
 
+  puts -nonewline "Update external lib directory ... "; flush stdout
+  if { [catch {exec $svn_exe up [file nativename $lib_dir]} m] } {
+    err "Error, svn update failed:\n$m"
+  }
+  puts "ok."
+
   puts -nonewline "Commit external libs pops change  ... "; flush stdout
   if { [catch {exec $svn_exe ci [file nativename $lib_dir] -m "Update external libs"} m] } {
     err "Error, svn commit failed:\n$m"
   }
   puts "ok."
 
-  puts -nonewline "Update external lib directory ... "; flush stdout
-  if { [catch {exec $svn_exe up [file nativename $lib_dir]} m] } {
-    err "Error, svn update failed:\n$m"
-  }
-  puts "ok."
 }
 
 set head [list "tclkit" $tcl_ver $kit_platform]
@@ -175,27 +235,51 @@ try {
 }
 puts "ok."
 
+proc rcopy { basedir path dest } {
+  set copy_dirs 0
+  set copy_files 0
+  foreach dir [glob -directory [file join $basedir $path] -nocomplain -types d -tails -- *] {
+    lassign [rcopy $basedir [file join $path $dir] $dest] tmp_dirs tmp_files
+    incr copy_dirs
+    incr copy_dirs $tmp_dirs
+    incr copy_files $tmp_files
+  }
+  foreach fn [glob -directory [file join $basedir $path] -nocomplain -types f -tails -- *] {
+    incr copy_files
+    if { ![file isdirectory [file join $dest $path]] } {
+      file mkdir [file join $dest $path]
+    }
+    file copy -force [file join $basedir $path $fn] [file join $dest $path $fn]
+  }
+  return [list $copy_dirs $copy_files]
+}
+
+vfs::mk4::Mount $dest $dest
+
+if { [array size archive_pkg] } {
+  puts -nonewline "Copy lib files to starpack ... "; flush stdout
+  set d 0
+  set f 0
+  set l 0
+  foreach { pkg fn } [array get archive_pkg] {
+  	try {
+	    vfs::zip::Mount $fn $fn
+	    lassign [rcopy $fn {} [file join $dest lib [dict get $pkgs $pkg directory]]] dd df
+	    incr d $dd
+	    incr f $df
+	    incr l
+	  } on error { r o } {
+	    catch { vfs::unmount $fn }
+	    vfs::unmount $dest
+	    err "Error:\n$r"
+	  }
+	  vfs::unmount $fn
+  }
+  puts "ok, added $l lib\(s\): $f file\(s\), $d dir\(s\)."
+}
+
 puts -nonewline "Copy files to starpack ... "; flush stdout
 try {
-	vfs::mk4::Mount $dest $dest
-	proc rcopy { basedir path dest } {
-	  set copy_dirs 0
-	  set copy_files 0
-	  foreach dir [glob -directory [file join $basedir $path] -nocomplain -types d -tails -- *] {
-	    lassign [rcopy $basedir [file join $path $dir] $dest] tmp_dirs tmp_files
-	    incr copy_dirs
-	    incr copy_dirs $tmp_dirs
-	    incr copy_files $tmp_files
-	  }
-	  foreach fn [glob -directory [file join $basedir $path] -nocomplain -types f -tails -- *] {
-	    incr copy_files
-	    if { ![file isdirectory [file join $dest $path]] } {
-	      file mkdir [file join $dest $path]
-	    }
-	    file copy -force [file join $basedir $path $fn] [file join $dest $path $fn]
-	  }
-	  return [list $copy_dirs $copy_files]
-	}
 	lassign [rcopy $src_dir {} $dest] d f
 	puts "ok: added $f file\(s\), $d dir\(s\)."
 } on error { r o } {
