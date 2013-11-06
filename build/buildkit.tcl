@@ -16,41 +16,43 @@ proc err { msg } {
 
 puts -nonewline "Reading packages.list ... "; flush stdout
 set pkgs [dict create Tk [dict create repository internal require "" directory ""]]
-set fd [open [file join $tools_dir packages.list] r]
-set cur_pkg ""
-set linenum 0
-while { [gets $fd line] >= 0 } {
-  incr linenum
-  if { [set line [string trim $line]] eq "" } continue
-  set line [split $line :]
-  set key [string trim [lindex $line 0]]
-  set val [string trim [join [lrange $line 1 end] :]]
-  if { [string equal -nocase "package" $key] } {
-    set cur_pkg $val
-    dict set pkgs $cur_pkg [dict create \
-      repository "" \
-      require [list] \
-      directory ""]
-    continue
-  }
-  if { $cur_pkg eq "" } {
-		close $fd
-		err "Error at line ${linenum}, package name not defined."
-  }
-  switch -nocase -exact -- $key {
-    repository - directory {
-      dict set pkgs $cur_pkg [string tolower $key] $val
-    }
-    require {
-      dict set pkgs $cur_pkg require [lappend [dict get $pkgs $cur_pkg require] $val]
-    }
-    default {
-      close $fd
-      err "Error at line ${linenum}, package description key not known."
-    }
-  }
+foreach pkgfn [glob -nocomplain -directory $tools_dir *.pkglist] {
+	set fd [open $pkgfn r]
+	set cur_pkg ""
+	set linenum 0
+	while { [gets $fd line] >= 0 } {
+	  incr linenum
+	  if { [set line [string trim $line]] eq "" || [string index $line 0] eq "#" } continue
+	  set line [split $line :]
+	  set key [string trim [lindex $line 0]]
+	  set val [string trim [join [lrange $line 1 end] :]]
+	  if { [string equal -nocase "package" $key] } {
+	    set cur_pkg $val
+	    dict set pkgs $cur_pkg [dict create \
+	      repository "" \
+	      require [list] \
+	      directory ""]
+	    continue
+	  }
+	  if { $cur_pkg eq "" } {
+			close $fd
+			err "Error at line ${linenum}, package name not defined."
+	  }
+	  switch -nocase -exact -- $key {
+	    repository - directory {
+	      dict set pkgs $cur_pkg [string tolower $key] $val
+	    }
+	    require {
+	      dict set pkgs $cur_pkg require [lappend [dict get $pkgs $cur_pkg require] $val]
+	    }
+	    default {
+	      close $fd
+	      err "Error at line ${linenum}, package description key not known."
+	    }
+	  }
+	}
+	close $fd
 }
-close $fd
 puts "ok."
 
 array set ext_temp [list]
@@ -66,12 +68,12 @@ proc add_require { pkg } {
   }
 }
 
-puts -nonewline "Reading external.list ... "; flush stdout 
-set fd [open [file join $lib_dir external.list] r]
+puts -nonewline "Reading external.pkglist ... "; flush stdout 
+set fd [open [file join $lib_dir external.pkglist] r]
 set linenum 0
 while { [gets $fd line] >= 0 } {
   incr linenum
-  if { [set line [string trim $line]] eq "" } continue
+  if { [set line [string trim $line]] eq "" || [string index $line 0] eq "#" } continue
   if { [catch [list add_require $line] m] } {
     close $fd
     err "Error at line ${linenum}: $m"
