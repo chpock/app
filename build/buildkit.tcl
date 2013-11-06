@@ -189,6 +189,9 @@ try {
 	  }
 	  foreach fn [glob -directory [file join $basedir $path] -nocomplain -types f -tails -- *] {
 	    incr copy_files
+	    if { ![file isdirectory [file join $dest $path]] } {
+	      file mkdir [file join $dest $path]
+	    }
 	    file copy -force [file join $basedir $path $fn] [file join $dest $path $fn]
 	  }
 	  return [list $copy_dirs $copy_files]
