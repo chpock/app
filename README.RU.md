@@ -10,12 +10,13 @@ app
 4. Переносим из *.vfs каталогов библиотеки itcl, tdbc*, thread в modules/core/ 
    (в tk версии удалить так же *.sh и .o)
 5. Добавляем из "src" в корень *.vfs файлы main.tcl и tkcon.tcl
-6. Запускаем "2.wrap.bat tclkit-8.6.1-win32-notk"
-7. Запускаем "2.wrap.bat tclkit-8.6.1-win32"
+6, Заменить в *.vfs/lib/tcl8.6/msgs файл uk.msg на файл из "src"
+7. Запускаем "2.wrap.bat tclkit-8.6.1-win32-notk"
+8. Запускаем "2.wrap.bat tclkit-8.6.1-win32"
 
-8. В модулях удаляем всякие *.sh и *.o файлы
-9. Переименовываем каталоги модулей, удаляем версию
-10. Добавляем из "src" файлы pkgIndex* для tdbc::mysql и tdbc::postgres
-11. Добавляем из "tools\*.zip" архивов дополнительные dll для tdbc::mysql и tdbc::postgres
+9. В модулях удаляем всякие *.sh и *.o файлы
+10. Переименовываем каталоги модулей, удаляем версию
+11. Добавляем из "src" файлы pkgIndex* для tdbc::mysql и tdbc::postgres
+12. Добавляем из "tools\*.zip" архивов дополнительные dll для tdbc::mysql и tdbc::postgres
 
-12. Все ОК 
+13. Все ОК 
