@@ -1,0 +1,9 @@
+Package: ckl::tk
+Repository: https://github.com/chpock/ckl/trunk/ckltk/
+
+Package: ckl::tdbc
+Repository: https://github.com/chpock/ckl/trunk/ckltdbc/
+Require: tdbc
+
+Package: procarg
+Repository: https://github.com/chpock/ckl/trunk/procarg/
