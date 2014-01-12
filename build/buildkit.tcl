@@ -180,7 +180,7 @@ if { ![array size ext_temp] && ![llength $odd_pkgs] } {
 	  set fd [open $tmpfile w]
 	  fconfigure $fd -translation lf
 	  foreach {pkg repo} [array get ext_save] {
-	    puts $fd "$repo $pkg"
+	    puts $fd "$repo [dict get $pkgs $pkg directory]"
 	  }
 	  puts $fd ""
 	  close $fd
