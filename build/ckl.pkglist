@@ -1,7 +1,9 @@
 Package: ckl::tk
+Directory: ckltk
 Repository: https://github.com/chpock/ckl/trunk/ckltk/
 
 Package: ckl::tdbc
+Directory: ckltdbc
 Repository: https://github.com/chpock/ckl/trunk/ckltdbc/
 Require: tdbc
 
