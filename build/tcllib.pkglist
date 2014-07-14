@@ -1,27 +1,27 @@
 Package: base64
-Archive: https://raw.github.com/chpock/app/master/modules/tcllib/base64.zip
+Archive: https://raw.githubusercontent.com/chpock/app/master/modules/tcllib/base64.zip
 
 Package: json
-Archive: https://raw.github.com/chpock/app/master/modules/tcllib/json.zip
+Archive: https://raw.githubusercontent.com/chpock/app/master/modules/tcllib/json.zip
 
 Package: log
-Archive: https://raw.github.com/chpock/app/master/modules/tcllib/log.zip
+Archive: https://raw.githubusercontent.com/chpock/app/master/modules/tcllib/log.zip
 
 Package: md5
-Archive: https://raw.github.com/chpock/app/master/modules/tcllib/md5.zip
+Archive: https://raw.githubusercontent.com/chpock/app/master/modules/tcllib/md5.zip
 
 Package: png
-Archive: https://raw.github.com/chpock/app/master/modules/tcllib/png.zip
+Archive: https://raw.githubusercontent.com/chpock/app/master/modules/tcllib/png.zip
 
 Package: uev
-Archive: https://raw.github.com/chpock/app/master/modules/tcllib/uev.zip
+Archive: https://raw.githubusercontent.com/chpock/app/master/modules/tcllib/uev.zip
 Require: log
 
 Package: uri
-Archive: https://raw.github.com/chpock/app/master/modules/tcllib/uri.zip
+Archive: https://raw.githubusercontent.com/chpock/app/master/modules/tcllib/uri.zip
 
 Package: uuid
-Archive: https://raw.github.com/chpock/app/master/modules/tcllib/uuid.zip
+Archive: https://raw.githubusercontent.com/chpock/app/master/modules/tcllib/uuid.zip
 Require: md5
 
 

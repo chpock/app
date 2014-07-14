@@ -1,9 +1,9 @@
 Package: twapi4
-Archive: https://raw.github.com/chpock/app/master/modules/other/twapi4.zip
+Archive: https://raw.githubusercontent.com/chpock/app/master/modules/other/twapi4.zip
 
 Package: cawt
-Archive: https://raw.github.com/chpock/app/master/modules/other/cawt.zip
+Archive: https://raw.githubusercontent.com/chpock/app/master/modules/other/cawt.zip
 Require: twapi4
 
 Package: sqlite3
-Archive: https://raw.github.com/chpock/app/master/modules/other/sqlite3.zip
+Archive: https://raw.githubusercontent.com/chpock/app/master/modules/other/sqlite3.zip
