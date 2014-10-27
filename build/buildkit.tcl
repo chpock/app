@@ -14,6 +14,7 @@ set executable_ext ".exe"
 source [file join $tools_dir tls-win.kit]
 package require tls
 package require http
+tls::init -tls1 1
 http::register https 443 ::tls::socket
 
 proc err { msg } {
