@@ -9,4 +9,4 @@ Package: sqlite3
 Archive: https://raw.githubusercontent.com/chpock/app/master/modules/other/sqlite3.zip
 
 Package: tls
-Archive: https://raw.githubusercontent.com/chpock/app/master/modules/other/tls-win32.zip
+Archive: https://raw.githubusercontent.com/chpock/app/master/modules/other/tls-%platform%.zip

@@ -58,7 +58,7 @@ foreach pkgfn [glob -nocomplain -directory $tools_dir *.pkglist] {
 	  }
 	  switch -nocase -exact -- $key {
 	    repository - directory - archive {
-	      dict set pkgs $cur_pkg [string tolower $key] $val
+	      dict set pkgs $cur_pkg [string tolower $key] [string map [list "%platform%" $kit_platform] $val]
 	    }
 	    require {
 	      dict set pkgs $cur_pkg require [lappend [dict get $pkgs $cur_pkg require] $val]
