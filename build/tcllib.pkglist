@@ -38,5 +38,12 @@ Archive: https://raw.githubusercontent.com/chpock/app/master/modules/tcllib/stru
 Package: struct::tree
 Archive: https://raw.githubusercontent.com/chpock/app/master/modules/tcllib/struct-tree.zip
 
+Package: struct::list
+Archive: https://raw.githubusercontent.com/chpock/app/master/modules/tcllib/struct-list.zip
+
+Package: struct::tree_tcl
+Archive: https://raw.githubusercontent.com/chpock/app/master/modules/tcllib/struct-tree_tcl.zip
+Require: struct::list
+
 
 
