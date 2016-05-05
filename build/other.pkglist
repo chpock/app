@@ -10,3 +10,6 @@ Archive: https://raw.githubusercontent.com/chpock/app/master/modules/other/sqlit
 
 Package: tls
 Archive: https://raw.githubusercontent.com/chpock/app/master/modules/other/tls-%platform%.zip
+
+Package: tdom
+Archive: https://raw.githubusercontent.com/chpock/app/master/modules/other/tdom-%platform%.zip
