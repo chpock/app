@@ -30,7 +30,7 @@ Archive: https://raw.githubusercontent.com/chpock/app/master/modules/tcllib/cmdl
 Package: htmlparse
 Archive: https://raw.githubusercontent.com/chpock/app/master/modules/tcllib/htmlparse.zip
 Require: cmdline
-Require: struct-stack
+Require: struct::stack
 
 Package: struct::stack
 Archive: https://raw.githubusercontent.com/chpock/app/master/modules/tcllib/struct-stack.zip
