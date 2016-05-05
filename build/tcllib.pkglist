@@ -24,6 +24,19 @@ Package: uuid
 Archive: https://raw.githubusercontent.com/chpock/app/master/modules/tcllib/uuid.zip
 Require: md5
 
+Package: cmdline
+Archive: https://raw.githubusercontent.com/chpock/app/master/modules/tcllib/cmdline.zip
+
+Package: htmlparse
+Archive: https://raw.githubusercontent.com/chpock/app/master/modules/tcllib/htmlparse.zip
+Require: cmdline
+Require: struct-stack
+
+Package: struct-stack
+Archive: https://raw.githubusercontent.com/chpock/app/master/modules/tcllib/struct-stack.zip
+
+Package: struct-tree
+Archive: https://raw.githubusercontent.com/chpock/app/master/modules/tcllib/struct-tree.zip
 
 
 
