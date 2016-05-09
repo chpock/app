@@ -16,6 +16,7 @@ Repository: https://github.com/chpock/ckl/trunk/procarg/
 
 Package: proxylist
 Repository: https://github.com/chpock/ckl/trunk/proxylist/
+Require: checkonline
 
 Package: checkonline
 Repository: https://github.com/chpock/ckl/trunk/checkonline/
