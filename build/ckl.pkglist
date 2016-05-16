@@ -14,9 +14,9 @@ Require: tdbc
 Package: procarg
 Repository: https://github.com/chpock/ckl/trunk/procarg/
 
-Package: proxylist
+Package: ckl::proxylist
 Repository: https://github.com/chpock/ckl/trunk/proxylist/
-Require: checkonline
+Require: ckl::checkonline
 
-Package: checkonline
+Package: ckl::checkonline
 Repository: https://github.com/chpock/ckl/trunk/checkonline/
