@@ -22,3 +22,9 @@ Require: ckl::checkonline
 Package: ckl::checkonline
 Directory: checkonline
 Repository: https://github.com/chpock/ckl/trunk/checkonline/
+
+Package: ckl::http
+Directory: cklhttp
+Repository: https://github.com/chpock/ckl/trunk/cklhttp/
+Require: ckl::checkonline
+Require: ckl::proxylist
