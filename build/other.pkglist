@@ -13,3 +13,6 @@ Archive: https://raw.githubusercontent.com/chpock/app/master/modules/other/tls-%
 
 Package: tdom
 Archive: https://raw.githubusercontent.com/chpock/app/master/modules/other/tdom-%platform%.zip
+
+Package: tclgumbo
+Archive: https://raw.githubusercontent.com/chpock/app/master/modules/other/tclgumbo-%platform%.zip

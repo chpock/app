@@ -15,8 +15,10 @@ Package: procarg
 Repository: https://github.com/chpock/ckl/trunk/procarg/
 
 Package: ckl::proxylist
+Directory: proxylist
 Repository: https://github.com/chpock/ckl/trunk/proxylist/
 Require: ckl::checkonline
 
 Package: ckl::checkonline
+Directory: checkonline
 Repository: https://github.com/chpock/ckl/trunk/checkonline/
