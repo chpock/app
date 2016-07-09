@@ -34,3 +34,4 @@ Directory: vkapi
 Repository: https://github.com/chpock/vkapi/trunk/
 Require: procarg
 Require: tls
+Require: json
