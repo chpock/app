@@ -28,3 +28,9 @@ Directory: cklhttp
 Repository: https://github.com/chpock/ckl/trunk/cklhttp/
 Require: ckl::checkonline
 Require: ckl::proxylist
+
+Package: vkapi
+Directory: vkapi
+Repository: https://github.com/chpock/vkapi/trunk/
+Require: procarg
+Require: tls
